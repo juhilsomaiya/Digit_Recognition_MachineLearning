@@ -27,8 +27,7 @@ from __future__ import print_function
 import keras
 from keras.datasets import mnist
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Activation
-from keras.layers import Conv2D, MaxPooling2D
+from keras.layers import Dense, Dropout, Flatten, Activation, Conv2D, MaxPooling2D
 from keras import backend as K
 import tensorflow as tf
 import matplotlib.pyplot as plt
@@ -158,7 +157,6 @@ print('Test accuracy:', score[1])
 4. Evaluate on our model
 """
 
-import cv2
 img = mpimg.imread('1.png')     # read image
 label = np.array([4])    # assign corect label to it
 
@@ -175,11 +173,14 @@ label = keras.utils.to_categorical(label, num_classes)
 
 # evalute on our model
 score = model.evaluate(img, label, verbose=0)
-print('Test accuracy:', score[1])
+if score and score[1]:
+  print('Test accuracy:', score[1])
 
-pred = model.predict(img)
-predicted = np.argmax(pred, axis=1)
-print("Predicted Output: ", predicted)
+predicted_model = model.predict(img)
+if predicted_model:
+  predicted = np.argmax(predicted_model, axis=1)
+if predicted and predicted_model:
+  print("Predicted Output: ", predicted)
 
 """# Visualization of Model Accuracy and Loss"""
 
@@ -189,6 +190,7 @@ plt.title("Model Accuracy")
 plt.xlabel("Epoch")
 plt.ylabel("Accuracy")
 plt.legend(["train", "validation"], loc="upper left")
+plt.text(60, 40 , 'Accuracy')
 plt.show()
 
 plt.plot(history.history["loss"])
@@ -197,5 +199,6 @@ plt.title("Model Loss")
 plt.xlabel("Epoch")
 plt.ylabel("Loss")
 plt.legend(["train", "validation"], loc="upper left")
+plt.text(60, 40 , 'Loss')
 plt.show()
 
